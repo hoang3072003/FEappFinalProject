@@ -2,21 +2,20 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Image, ImageBackground, Alert, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 
-export default function LoginScreen({ navigation }) {
+export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    if (username === 'user' && password === 'password') {
-      Alert.alert('Đăng nhập thành công!');
-      navigation.navigate('Home'); // Điều hướng đến trang Home
-    } else {
-      Alert.alert('Tài khoản hoặc mật khẩu không đúng');
-    }
-  };
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleRegister = () => {
-    navigation.navigate('Register'); // Điều hướng đến trang Đăng ký
+    if (username && password && firstName && lastName && email) {
+      Alert.alert('Đăng ký thành công!');
+      navigation.navigate('Login'); // Điều hướng đến trang Login sau khi đăng ký thành công
+    } else {
+      Alert.alert('Vui lòng điền đầy đủ thông tin');
+    }
   };
 
   return (
@@ -27,7 +26,7 @@ export default function LoginScreen({ navigation }) {
       >
         <View style={styles.overlay}>
           <Image source={{ uri: 'https://static.vecteezy.com/system/resources/previews/006/227/054/original/car-shop-logo-design-template-element-usable-for-business-and-automotive-logos-vector.jpg' }} style={styles.logo} />
-          <Text style={styles.title}>Đăng nhập</Text>
+          <Text style={styles.title}>Đăng ký</Text>
           <TextInput
             style={styles.input}
             placeholder="Tài khoản"
@@ -43,13 +42,34 @@ export default function LoginScreen({ navigation }) {
             secureTextEntry
             placeholderTextColor="#aaa"
           />
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Đăng nhập</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Họ"
+            value={firstName}
+            onChangeText={setFirstName}
+            placeholderTextColor="#aaa"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Tên"
+            value={lastName}
+            onChangeText={setLastName}
+            placeholderTextColor="#aaa"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            placeholderTextColor="#aaa"
+          />
+          <TouchableOpacity style={styles.button} onPress={handleRegister}>
+            <Text style={styles.buttonText}>Đăng ký</Text>
           </TouchableOpacity>
-          <View style={styles.registerContainer}>
-            <Text style={styles.registerText}>Nếu chưa có tài khoản:</Text>
-            <TouchableOpacity onPress={handleRegister}>
-              <Text style={styles.registerButton}>Đăng ký</Text>
+          <View style={styles.loginContainer}>
+            <Text style={styles.loginText}>Đã có tài khoản?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.loginButton}>Đăng nhập</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -117,15 +137,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  registerContainer: {
+  loginContainer: {
     flexDirection: 'row',
     marginTop: 20,
   },
-  registerText: {
+  loginText: {
     fontSize: 16,
     color: '#333',
   },
-  registerButton: {
+  loginButton: {
     fontSize: 16,
     color: '#0288D1',
     marginLeft: 5,

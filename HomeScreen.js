@@ -31,10 +31,10 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <View style={styles.productsContainer}>
           {products.map((product) => (
-            <View key={product.id} style={styles.product}>
+            <TouchableOpacity key={product.id} style={styles.product} onPress={() => navigation.navigate('ProductDetail', { product })}>
               <Image source={{ uri: product.image }} style={styles.productImage} />
               <Text style={styles.productName}>{product.name}</Text>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
